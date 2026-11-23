@@ -1,0 +1,71 @@
+
+<div class="header">
+    <div class="container">
+
+        {{-- LOGO WEBSITE --}}
+        <div class="w3layouts_logo">
+            <a href="{{ route('home') }}">
+                <h1>One<span>Movies</span></h1>
+            </a>
+        </div>
+
+        {{-- SEARCH FILM --}}
+        <div class="w3_search">
+            <form action="{{ route('movies.search') }}" method="GET">
+                <input
+                    type="text"
+                    name="Search"
+                    placeholder="Search Film..."
+                    value="{{ request('Search') }}"
+                    required
+                >
+                <input type="submit" value="Go">
+            </form>
+        </div>
+
+        {{-- LOGIN, REGISTER, PROFILE --}}
+        <div class="w3l_sign_in_register">
+            <ul>
+                @auth
+                    <li>
+                        @if (auth()->user()->isAdmin())
+                            <a href="{{ route('admin.dashboard') }}">
+                                Panel Admin
+                            </a>
+                        @endif
+
+                        <a href="{{ route('profile.show') }}" title="Profil saya">
+                            <i class="fa fa-user" style="padding-right:6px;"></i>
+                            {{ auth()->user()->name }}
+                        </a>
+
+                        <a href="#"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+
+                        <form id="logout-form"
+                              action="{{ route('logout') }}"
+                              method="post"
+                              style="display:none;">
+                            @csrf
+                        </form>
+                    </li>
+                @else
+                    <li>
+                        <a href="#" onclick="openAuthModal('login'); return false;">
+                            Login
+                        </a>
+
+                        <a href="#" onclick="openAuthModal('register'); return false;">
+                            Register
+                        </a>
+                    </li>
+                @endauth
+            </ul>
+        </div>
+
+        <div class="clearfix"></div>
+
+    </div>
+</div>
